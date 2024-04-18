@@ -1,0 +1,130 @@
+{
+    "FactoryPi": {
+        "FId": "F_5F3C6M",
+        "Cells": [
+            {
+                "CID": 1,
+                "Resources": [
+                    {
+                        "rid": 1,
+                        "name": "R1",
+                        "setup_time": [
+                            10,
+                            8,
+                            6,
+                            16,
+                            14
+                        ],
+                        "processing_time": [
+                            21,
+                            27,
+                            12,
+                            18,
+                            3
+                        ]
+                    },
+                    {
+                        "rid": 2,
+                        "name": "R2",
+                        "setup_time": [
+                            14,
+                            20,
+                            10,
+                            12,
+                            14
+                        ],
+                        "processing_time": [
+                            27,
+                            3,
+                            6,
+                            12,
+                            15
+                        ]
+                    }
+                ]
+            },
+            {
+                "CID": 2,
+                "Resources": [
+                    {
+                        "rid": 1,
+                        "name": "R1",
+                        "setup_time": [
+                            12,
+                            8,
+                            6,
+                            16,
+                            14
+                        ],
+                        "processing_time": [
+                            15,
+                            27,
+                            12,
+                            18,
+                            3
+                        ]
+                    },
+                    {
+                        "rid": 2,
+                        "name": "R2",
+                        "setup_time": [
+                            16,
+                            18,
+                            8,
+                            12,
+                            2
+                        ],
+                        "processing_time": [
+                            33,
+                            12,
+                            9,
+                            24,
+                            21
+                        ]
+                    }
+                ]
+            },
+            {
+                "CID": 3,
+                "Resources": [
+                    {
+                        "rid": 1,
+                        "name": "R1",
+                        "setup_time": [
+                            14,
+                            20,
+                            10,
+                            12,
+                            14
+                        ],
+                        "processing_time": [
+                            27,
+                            3,
+                            6,
+                            12,
+                            15
+                        ]
+                    },
+                    {
+                        "rid": 2,
+                        "name": "R2",
+                        "setup_time": [
+                            14,
+                            20,
+                            6,
+                            4,
+                            14
+                        ],
+                        "processing_time": [
+                            9,
+                            3,
+                            6,
+                            12,
+                            15
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
