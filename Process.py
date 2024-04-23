@@ -28,7 +28,7 @@ if __name__ == "__main__":
     process.add_cellid([1, 2, 3])
     process.add_cellid([1, 2, 3])
     #process.add_family([2, 3])      # Family 2
-
+    process_name = "P_FFS_5F3C"
     # Convert to JSON
     json_string = process.represent()
     manufacturing_process = {}
@@ -36,6 +36,7 @@ if __name__ == "__main__":
         manufacturing_process[f"Family{i}"] = family_data
 
     result = {
+    "Process Name": process_name,    
     "Manufacturing Process": manufacturing_process
     }
     json_output = json.dumps(result, indent='\n')
