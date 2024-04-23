@@ -1,0 +1,29 @@
+{
+    "Manufacturing Process": {
+        "Family1": [
+            1,
+            2,
+            3
+        ],
+        "Family2": [
+            1,
+            2,
+            3
+        ],
+        "Family3": [
+            1,
+            2,
+            3
+        ],
+        "Family4": [
+            1,
+            2,
+            3
+        ],
+        "Family5": [
+            1,
+            2,
+            3
+        ]
+    }
+}
