@@ -1,5 +1,6 @@
 from Resource import Resource  
-from CELL import Cell  
+from CELL import Cell 
+from Process import Process
 
 class FactoryPi:
     def __init__(self, fid, cells, family):
