@@ -47,8 +47,8 @@
                 "CID": 2,
                 "Resources": [
                     {
-                        "rid": 1,
-                        "name": "R1",
+                        "rid": 3,
+                        "name": "R3",
                         "setup_time": [
                             12,
                             18,
@@ -65,8 +65,8 @@
                         ]
                     },
                     {
-                        "rid": 2,
-                        "name": "R2",
+                        "rid": 4,
+                        "name": "R4",
                         "setup_time": [
                             16,
                             18,
@@ -88,8 +88,8 @@
                 "CID": 3,
                 "Resources": [
                     {
-                        "rid": 1,
-                        "name": "R1",
+                        "rid": 5,
+                        "name": "R5",
                         "setup_time": [
                             14,
                             20,
@@ -106,8 +106,8 @@
                         ]
                     },
                     {
-                        "rid": 2,
-                        "name": "R2",
+                        "rid": 6,
+                        "name": "R6",
                         "setup_time": [
                             14,
                             20,
