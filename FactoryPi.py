@@ -53,11 +53,11 @@ def create_cells_and_resources():
     cell2 = Cell(2)
     cell3 = Cell(3)
     cell1.add_resource([5,4,3,8,7], [7,9,4,6,1])  # Example resource creation
-    cell1.add_resource([7,10,5,6,7], [9,1,2,4,5])  # Example resource creation
+   
     cell2.add_resource([6,4,3,8,7], [5,9,4,6,1])  # Example resource creation
-    cell2.add_resource([8,9,4,6,1], [11,4,3,8,7])
+   
     cell3.add_resource([7,10,5,6,7], [9,1,2,4,5])
-    cell3.add_resource([7,10,3,2,7], [3,1,2,4,5])
+   
     CELL = [cell1, cell2, cell3]
     return cell1, cell2, cell3, CELL
 
