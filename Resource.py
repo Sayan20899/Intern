@@ -1,4 +1,3 @@
-from collections import namedtuple
 
 TIME_UNIT = 3
 STIME_UNIT = 2
