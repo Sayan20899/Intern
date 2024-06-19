@@ -1,0 +1,50 @@
+{
+    "FactoryPi": {
+        "FId": "F_5F3C6M",
+        "Cells": [
+            {
+                "CID": 1,
+                "Resources": [
+                    {
+                        "rid": 1,
+                        "name": "R1",
+                        "setup_time": [
+                            10,
+                            8,
+                            6,
+                            16,
+                            14
+                        ],
+                        "processing_time": [
+                            20,
+                            20,
+                            15,
+                            18,
+                            17
+                        ]
+                    },
+                    {
+                        "rid": 2,
+                        "name": "R2",
+                        "setup_time": [
+                            14,
+                            20,
+                            10,
+                            12,
+                            14
+                        ],
+                        "processing_time": [
+                            27,
+                            13,
+                            16,
+                            12,
+                            15
+                        ]
+                    }
+                ]
+            }
+            
+            
+        ]
+    }
+}
