@@ -3,11 +3,11 @@
         "FId": "F_5F3C6M",
         "Cells": [
             {
-                "CID": 1,
+                "CID": 2,
                 "Resources": [
                     {
-                        "rid": 1,
-                        "name": "R1",
+                        "rid": 3,
+                        "name": "R3",
                         "setup_time": [
                             10,
                             8,
@@ -24,8 +24,8 @@
                         ]
                     },
                     {
-                        "rid": 2,
-                        "name": "R2",
+                        "rid": 4,
+                        "name": "R4",
                         "setup_time": [
                             14,
                             20,
