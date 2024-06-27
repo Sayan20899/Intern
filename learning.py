@@ -189,33 +189,11 @@ def job_complete_route():
     data = request.json
     job_id = data['job_id']
     status = data['status']
-    start_time = data['start_time']
-    end_time = data['end_time']
-    resource_name = data['resource_name']
 
     if status == 'complete':
         job_completion_status[job_id] = True
-        print(f"Job {job_id} completed on resource {resource_name} with start time {start_time} and end time {end_time}")
-
-        # Update the resource_jobs dictionary
-        if resource_name in resource_jobs:
-            for job in resource_jobs[resource_name]:
-                if job["job_id"] == job_id:
-                    job["start_time"] = start_time
-                    job["end_time"] = end_time
-                    break
-        else:
-            resource_jobs[resource_name] = [{
-                "job_id": job_id,
-                "start_time": start_time,
-                "end_time": end_time
-            }]
 
     return jsonify({"status": "acknowledged"}), 200
-
-@app.route('/job_data', methods=['GET'])
-def get_job_data():
-    return jsonify(resource_jobs), 200
 
 if __name__ == '__main__':
     threading.Thread(target=assign_jobs_to_cells).start()
