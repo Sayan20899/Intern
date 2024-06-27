@@ -1,5 +1,8 @@
 import json
 import requests
+import threading
+import time
+from flask import Flask, request, jsonify
 
 # Job scheduling data (same as provided previously)
 factory_data = {
@@ -96,7 +99,11 @@ raspberry_pi_ips = {
     3: '192.168.166.86'
 }
 
-# Assign jobs to cell agents
+app = Flask(__name__)
+
+job_completion_status = {job['job_id']: False for job in jobs}
+
+# Assign jobs to cell agents and wait for completion
 def assign_jobs_to_cells():
     for job in sorted(jobs, key=lambda x: x['arrival_time']):
         family_type = job['family_type'] - 1  # Adjusting index for 0-based indexing
@@ -120,16 +127,16 @@ def assign_jobs_to_cells():
                 if resource_jobs.get(selected_resource["rid"]):
                     last_job = resource_jobs[selected_resource["rid"]][-1]
                     if last_job['family_type'] != job['family_type']:
-                        start_time = last_job['finish_time'] if 'finish_time' in last_job else job['arrival_time']
-                        setup_time = selected_resource["setup_time"][family_type]
-                        processing_time = selected_resource["processing_time"][family_type]
-                        start_time += setup_time
-                        finish_time = start_time + processing_time
+                        # Calculate start time including setup time
+                        start_time = last_job['finish_time'] + selected_resource["setup_time"][family_type]
                     else:
-                        start_time = job['arrival_time']
-                        finish_time = start_time + processing_time
-
+                        # Same family type, start after the last job's finish time
+                        start_time = max(last_job['finish_time'], job['arrival_time'])
+                    
+                    # Calculate finish time based on processing time
+                    finish_time = start_time + selected_resource["processing_time"][family_type]
                 else:
+                    # No previous jobs on this resource, start at arrival time
                     start_time = job['arrival_time']
                     finish_time = start_time + selected_resource["processing_time"][family_type]
 
@@ -141,12 +148,11 @@ def assign_jobs_to_cells():
                     "finish_time": finish_time
                 }
 
+                # Update resource_jobs dictionary with the new job_info
                 if selected_resource["rid"] in resource_jobs:
                     resource_jobs[selected_resource["rid"]].append(job_info)
                 else:
                     resource_jobs[selected_resource["rid"]] = [job_info]
-
-                # Now selected_resource contains the optimal resource for this job and cell
 
                 # Send job to corresponding Raspberry Pi cell agent
                 cell_ip = raspberry_pi_ips[cell]
@@ -156,14 +162,61 @@ def assign_jobs_to_cells():
                     "selected_resource": {
                         "rid": selected_resource["rid"],
                         "name": selected_resource["name"],
-                        "setup_time": selected_resource["setup_time"][family_type],
-                        "processing_time": selected_resource["processing_time"][family_type]
-                    }
+                        "start_time": job_info["start_time"],
+                        "finish_time": job_info["finish_time"],
+                        "setup_time" : selected_resource["setup_time"][family_type]
+                    },
+                    "main_script_ip": '192.168.166.52'
                 }
-                print("The Details:", payload)
+
+                print(f"Sending job to cell {cell}: {payload}")
                 response = requests.post(url, json=payload)
                 if response.status_code != 200:
                     print(f"Failed to send job {job['job_id']} to cell {cell}")
+                else:
+                    # Wait for the job to complete before proceeding
+                    while not job_completed(job["job_id"]):
+                        if time.time() > job_info['finish_time'] + 60:
+                            print(f"Job {job['job_id']} timed out on cell {cell}")
+                            break
+                        time.sleep(1)
 
-if __name__ == "__main__":
-    assign_jobs_to_cells()
+def job_completed(job_id):
+    return job_completion_status.get(job_id, False)
+
+@app.route('/job_complete', methods=['POST'])
+def job_complete_route():
+    data = request.json
+    job_id = data['job_id']
+    status = data['status']
+    start_time = data['start_time']
+    end_time = data['end_time']
+    resource_name = data['resource_name']
+
+    if status == 'complete':
+        job_completion_status[job_id] = True
+        print(f"Job {job_id} completed on resource {resource_name} with start time {start_time} and end time {end_time}")
+
+        # Update the resource_jobs dictionary
+        if resource_name in resource_jobs:
+            for job in resource_jobs[resource_name]:
+                if job["job_id"] == job_id:
+                    job["start_time"] = start_time
+                    job["end_time"] = end_time
+                    break
+        else:
+            resource_jobs[resource_name] = [{
+                "job_id": job_id,
+                "start_time": start_time,
+                "end_time": end_time
+            }]
+
+    return jsonify({"status": "acknowledged"}), 200
+
+@app.route('/job_data', methods=['GET'])
+def get_job_data():
+    return jsonify(resource_jobs), 200
+
+if __name__ == '__main__':
+    threading.Thread(target=assign_jobs_to_cells).start()
+    app.run(host='0.0.0.0', port=5000)
